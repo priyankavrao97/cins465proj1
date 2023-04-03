@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Organizer</title>
+      {% load static %}
+      {% include "bootstrap.html" %}
+      <!-- <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+      <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4"></script> -->
+      <!-- <link rel="stylesheet"  href="bower_components/chartist/dist/chartist.min.css"> -->
+      <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+        <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+  </head>
+  <!-- <script>
+    //window.onload = function() {
+    var count='{{taskspie}}'
+    console.log(count);
+    let ctx = document.getElementById("taskChart").getContext("2d");
+
+    let chart = new Chart(ctx, {
+    type: "pie",   
+    data: {
+        labels: ["Completed", "Pending"],
+        datasets: [
+            {
+            label: "Tasks",
+            backgroundColor: "#79AEC8",
+            borderColor: "#417690",
+            //data: JSON.parse('{{ taskspie|escapejs }}')
+            data:count
+            }
+        ]
+    },
+    options: {
+        title: {
+            text: "Gross Volume in 2020",
+            display: true
+        }
+    }
+    });
+//}
+  </script> -->
+  <body >
+      {% include "navigation.html" %}
+
+      <div class="container">
+        <div class="jumbotron">
+          
+          <div class="row">
+  
+            <div class="col-md-6">
+                <h3>Tasks</h3>
+
+               
+                
+                <div id="taskChart">
+  
+                </div>
+                <h4 id="emptypie"></h4>
+
+                <a class="btn btn-dark redirbtn" href="/tasks/" style="align-items: center;">Task</a>
+            </div>
+  
+            <div class="col-xs-6">
+                <h3>Budget</h3>
+
+                
+
+                <div id="budgetChart">
+  
+                </div>
+
+                <h4 id="emptybar"></h4>
+
+                <a class="btn btn-dark redirbtn" href="/budget/">Budget</a>
+                
+  
+            </div>
+          </div>
+  
+        </div>
+      </div>
+      <!-- <link rel="stylesheet"  href="bower_components/chartist/dist/chartist.min.css"> -->
+      <!-- <script src="bower_components/chartist/dist/chartist.min.js"></script> -->
+  
+      <script>
+        var count='{{taskspie}}'
+        var taskcount = JSON.parse("[" + count + "]");
+        console.log(taskcount[0]);
+       // console.log(typeof(count))
+        var data = {
+            labels: ['Completed', 'Pending'],
+            series: taskcount[0]
+        };
+
+        var options = {
+            width: "400px",
+            height: "400px",
+            labelInterpolationFnc: function(value) {
+                return value[0]
+            }
+            };
+
+            var responsiveOptions = [
+            ['screen and (min-width: 640px)', {
+                chartPadding:0,
+                labelOffset: 30,
+                labelDirection: 'explode',
+                labelInterpolationFnc: function(value) {
+                return value;
+                }
+            }],
+            ['screen and (min-width: 1024px)', {
+                labelOffset: 20,
+                chartPadding: 20
+            }]
+            ];
+
+        
+        if(taskcount[0][0]==0 && taskcount[0][1]==0){
+            var ele=document.getElementById("emptypie");
+            ele.innerHTML="There are no task entries yet!"
+        }
+        else{
+            new Chartist.Pie('#taskChart', data, options, responsiveOptions);
+        }
+       
+        var proj='{{projvalues}}'
+        var projcount = JSON.parse("[" + proj + "]");
+        console.log(projcount[0]);
+
+        var act='{{actvalues}}'
+        var actcount = JSON.parse("[" + act + "]");
+        console.log(actcount[0]);
+
+        var data = {
+        //labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        series: [
+            projcount[0],
+            actcount[0]
+        ]
+        };
+
+        var options = {
+        width: "400px",
+        height: "400px",
+        seriesBarDistance: 10
+        };
+
+        var responsiveOptions = [
+        ['screen and (max-width: 640px)', {
+            seriesBarDistance: 5,
+            axisX: {
+            labelInterpolationFnc: function (value) {
+                return value[0];
+            }
+            }
+        }]
+        ];
+        if(projcount[0].length>0 && actcount[0].length>0 ){
+            new Chartist.Bar('#budgetChart', data, options, responsiveOptions);
+        }
+        else{
+            console.log("in else");
+            var ele=document.getElementById("emptybar");
+            ele.innerHTML="There are no budget entries yet!"
+
+        }
+                
+        
+          </script>
+    </body>
+</html>
+

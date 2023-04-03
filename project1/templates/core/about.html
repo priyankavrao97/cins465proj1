@@ -1,0 +1,27 @@
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  {% load static %}
+  {% include "bootstrap.html" %}
+  <script src="{%static 'chessboard.js' %}"></script>
+  <link rel="stylesheet" href="{%static 'chessboard.css' %}" />
+</head>
+
+<body>
+    {% include "navigation.html" %}
+    
+    <h1>About Me: Priyanka Rao</h1>
+    
+    <p>I am Priyanka Rao. I am from Bangalore, India. I have had a couple years of software experience in web development in TCS back in India. I worked for FedEx Services as a web developer last summer.</p>
+
+    <p>I look forward to work as a Software Engineer after Masters.</p>
+
+    <p>I love reading books and I am a movie buff.</p>
+
+    <img src="{%static '/images/profilepic.png' %}" height="300px" width="300px">
+
+</body>
+
+</html>
